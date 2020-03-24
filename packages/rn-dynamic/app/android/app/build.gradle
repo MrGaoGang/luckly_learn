@@ -162,6 +162,7 @@ android {
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
     }
+
     // applicationVariants are e.g. debug, release
     applicationVariants.all { variant ->
         variant.outputs.each { output ->
@@ -181,7 +182,10 @@ android {
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.facebook.react:react-native:+"  // From node_modules
-
+    implementation 'com.liulishuo.filedownloader:library:1.7.4' // 文件下载
+    implementation "com.squareup.okhttp3:okhttp:3.12.0" // 网络请求
+    implementation 'com.google.code.gson:gson:2.8.5' // json转换
+    implementation 'com.android.support:recyclerview-v7:28.0.0' //列表展示
     if (enableHermes) {
         def hermesPath = "../../node_modules/hermes-engine/android/";
         debugImplementation files(hermesPath + "hermes-debug.aar")
