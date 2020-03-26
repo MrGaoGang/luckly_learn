@@ -12,11 +12,11 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
-//适配器编写
+//列表适配器编写
 public class ListModuleAdapter extends RecyclerView.Adapter<ListModuleAdapter.ItemViewHolder> {
     private List<ModuleItem.Bundle> modules;
     private Context context;
+    private OnItemClickListener listener;
 
     public ListModuleAdapter(Context context, List<ModuleItem.Bundle> modules) {
         this.context = context;
@@ -41,11 +41,20 @@ public class ListModuleAdapter extends RecyclerView.Adapter<ListModuleAdapter.It
         notifyDataSetChanged();
     }
 
+    /**
+     * 设置点击事件
+     *
+     * @param listener
+     */
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
+    }
+
     @NonNull
     @Override
     public ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         //实例化出列表的每一个Item对象
-        View view = LayoutInflater.from(parent.getContext())
+        View view = LayoutInflater.from(context)
                 .inflate(R.layout.item, parent, false);
         return new ItemViewHolder(view);
     }
@@ -54,6 +63,12 @@ public class ListModuleAdapter extends RecyclerView.Adapter<ListModuleAdapter.It
     public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) {
         //绑定数据
         holder.textView.setText(modules.get(position).name);
+        holder.itemView.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onItemClick((modules.get(position)));
+            }
+        });
+
     }
 
     @Override
@@ -71,6 +86,10 @@ public class ListModuleAdapter extends RecyclerView.Adapter<ListModuleAdapter.It
             textView = itemView.findViewById(R.id.itemName);
 
         }
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(ModuleItem.Bundle bundle);
     }
 
 }
